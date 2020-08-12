@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>RebexTinySftpServer</AssemblyName>
+    <TargetFramework>net40</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Rebex.TinySftpServer</RootNamespace>
+    <ApplicationIcon>Resources\TinySftpServer.ico</ApplicationIcon>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Version>1.0.10</Version>
+    <Product>Rebex Tiny SFTP Server</Product>
+    <Company>Rebex CR, s.r.o.</Company>
+    <Description>Simple stand-alone SFTP server for testing purposes</Description>
+    <Copyright>Copyright (c) 2015-2020 Rebex CR, s.r.o.</Copyright>
+    <PackageProjectUrl>https://labs.rebex.net/tiny-sftp-server</PackageProjectUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\RebexLogo.png" />
+    <EmbeddedResource Include="Resources\TinySftpServer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Rebex.FileServer" Version="5.0.7501" />
+    <PackageReference Include="Rebex.Networking" Version="5.0.7501" />
+    <PackageReference Include="Rebex.Common" Version="5.0.7501" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>
