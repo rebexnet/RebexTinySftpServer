@@ -17,12 +17,12 @@ namespace Rebex.TinySftpServer
 		/// For Google Analytics params
 		/// see https://support.google.com/analytics/answer/1033867?hl=en
 		/// </remarks>
-		public const string HomepageUrl = "http://labs.rebex.net/tiny-sftp-server/?utm_source=TinySftpServerApp&utm_medium=application&utm_content=MainScreenLink&utm_campaign=TinySftpServerAppLinks";
+		public const string HomepageUrl = "https://www.rebex.net/tiny-sftp-server/?utm_source=TinySftpServerApp&utm_medium=application&utm_content=MainScreenLink&utm_campaign=TinySftpServerAppLinks";
 
-        /// <summary>
-        /// Buru Server URL
-        /// </summary>
-	    public const string BuruServerUrl = "https://rebex.net/buru-sftp-server/?utm_source=TinySftpServer";
+		/// <summary>
+		/// Buru Server URL
+		/// </summary>
+		public const string BuruServerUrl = "https://www.rebex.net/buru-sftp-server/?utm_source=TinySftpServer";
 
 		/// <summary>
 		/// SFTP user name

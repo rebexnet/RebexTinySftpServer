@@ -185,7 +185,7 @@ namespace Rebex.TinySftpServer
 						testFileDataPath,
 						"This is a test file created by Rebex Tiny SFTP server." +
 						Environment.NewLine + Environment.NewLine +
-						"http://labs.rebex.net/tiny-sftp-server/"
+						"https://www.rebex.net/tiny-sftp-server/"
 					);
 					Log.Write("Done.");
 				}

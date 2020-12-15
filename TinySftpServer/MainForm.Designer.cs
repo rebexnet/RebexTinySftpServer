@@ -123,7 +123,7 @@
             this.LinkToHomepage.Name = "LinkToHomepage";
             this.LinkToHomepage.Size = new System.Drawing.Size(146, 13);
             this.LinkToHomepage.TabIndex = 9;
-            this.LinkToHomepage.Text = "labs.rebex.net/tiny-sftp-server";
+            this.LinkToHomepage.Text = "www.rebex.net/tiny-sftp-server";
             this.LinkToHomepage.Click += new System.EventHandler(this.LinkToHomepage_Click);
             // 
             // label3
@@ -142,11 +142,11 @@
             this.LinkToBuruServer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LinkToBuruServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
             this.LinkToBuruServer.ForeColor = System.Drawing.Color.Blue;
-            this.LinkToBuruServer.Location = new System.Drawing.Point(35, 112);
+            this.LinkToBuruServer.Location = new System.Drawing.Point(25, 112);
             this.LinkToBuruServer.Name = "LinkToBuruServer";
             this.LinkToBuruServer.Size = new System.Drawing.Size(129, 13);
             this.LinkToBuruServer.TabIndex = 11;
-            this.LinkToBuruServer.Text = "rebex.net/buru-sftp-server";
+            this.LinkToBuruServer.Text = "www.rebex.net/buru-sftp-server";
             this.LinkToBuruServer.Click += new System.EventHandler(this.label4_Click);
             // 
             // panel1
