@@ -41,6 +41,9 @@ namespace Rebex.TinySftpServer
 			// log writer
 			Server.LogWriter = Log = new RichTextBoxLogWriter(LogRichTextBox, 10 * 1024, DefaultLogLevel);
 
+			// ensure that configuration is readable
+			Config.Verify();
+
 			// text for About box
 			var sb = new StringBuilder();
 

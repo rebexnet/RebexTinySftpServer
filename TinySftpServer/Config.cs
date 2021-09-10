@@ -147,6 +147,35 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		public void Verify()
+		{
+			try
+			{
+				ConfigurationManager.AppSettings.GetEnumerator().Reset();
+			}
+			catch (ConfigurationException ex)
+			{
+				var errors = ex.InnerException as ConfigurationErrorsException;
+				Exception detail = null;
+				if (errors != null)
+				{
+					foreach (var error in errors.Errors)
+					{
+						detail = error as Exception;
+						if (detail != null) break;
+					}
+				}
+
+				string message = "Unable to load configuration file.";
+				if (detail != null)
+				{
+					message += " " + detail.Message;
+				}
+
+				throw new ConfigurationErrorsException(message, ex);
+			}
+		}
+
 		private string GetValue(string key, string defaultValue)
 		{
 			var result = ConfigurationManager.AppSettings[key];
