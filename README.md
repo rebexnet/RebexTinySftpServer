@@ -2,7 +2,7 @@
 ======================
 
 A minimalist SFTP server for testing purposes.
-See [Tiny SFTP Server homepage](https://www.rebex.net/tiny-sftp-server/) for more information.
+See [Tiny SFTP Server homepage](https://www.rebex.net/tiny-sftp-server/) for more information and version history.
 
 
 ## Usage
