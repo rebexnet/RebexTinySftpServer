@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using Rebex.Net;
@@ -161,6 +162,20 @@ namespace Rebex.TinySftpServer
 			return list;
 		}
 
+		private void TryAddPrivateKey(string keyPath, string keyPassword, bool useRsa)
+		{
+			// Temporary hotfix for WinXP which is (sometimes?) unable to generate DSA keys
+			try
+			{
+				SshPrivateKey key = LoadOrCreatePrivateKey(keyPath, keyPassword, useRsa);
+				Server.Keys.Add(key);
+			}
+			catch (CryptographicException ex)
+			{
+				Log.Write(ex);
+			}
+		}
+
 		public void SetupServer()
 		{
 			try
@@ -168,8 +183,8 @@ namespace Rebex.TinySftpServer
 				// 1. Server keys
 
 				// add private keys for server authentication
-				Server.Keys.Add(LoadOrCreatePrivateKey(Config.RsaPrivateKeyFile, Config.RsaPrivateKeyPassword, useRsa: true));
-				Server.Keys.Add(LoadOrCreatePrivateKey(Config.DssPrivateKeyFile, Config.DssPrivateKeyPassword, useRsa: false));
+				TryAddPrivateKey(Config.RsaPrivateKeyFile, Config.RsaPrivateKeyPassword, useRsa: true);
+				TryAddPrivateKey(Config.DssPrivateKeyFile, Config.DssPrivateKeyPassword, useRsa: false);
 
 				// 2. Users
 
