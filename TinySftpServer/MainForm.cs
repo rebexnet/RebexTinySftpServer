@@ -332,7 +332,7 @@ namespace Rebex.TinySftpServer
 			}
 			catch (InvalidOperationException x)
 			{
-				Log.Write(LogColor.Error, "Unable to bind to port {0}: ", x.Message);
+				Log.Write(LogColor.Error, "Unable to bind to port {0}: {1}", Config.ServerPort, x.Message);
 				Log.Write(LogColor.Important, "Unable to bind to port {0}. Try changing it in the configuration file.", Config.ServerPort);
 				return;
 			}
