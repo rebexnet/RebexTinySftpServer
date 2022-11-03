@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.components = new System.ComponentModel.Container();
             this.StartStopButton = new System.Windows.Forms.Button();
             this.LogRichTextBox = new System.Windows.Forms.RichTextBox();
             this.AboutBox = new System.Windows.Forms.RichTextBox();
@@ -40,7 +41,10 @@
             this.LinkToBuruServer = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize) (this.pictureBox2)).BeginInit();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // StartStopButton
@@ -57,6 +61,7 @@
             // LogRichTextBox
             // 
             this.LogRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.LogRichTextBox.ContextMenuStrip = this.contextMenuStrip1;
             this.LogRichTextBox.Location = new System.Drawing.Point(12, 224);
             this.LogRichTextBox.Name = "LogRichTextBox";
             this.LogRichTextBox.ReadOnly = true;
@@ -161,6 +166,20 @@
             this.panel1.Size = new System.Drawing.Size(202, 137);
             this.panel1.TabIndex = 12;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuClearLog});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 26);
+            // 
+            // menuClearLog
+            // 
+            this.menuClearLog.Name = "menuClearLog";
+            this.menuClearLog.Size = new System.Drawing.Size(101, 22);
+            this.menuClearLog.Text = "Clear";
+            this.menuClearLog.Click += new System.EventHandler(this.menuClearLog_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,6 +197,7 @@
             ((System.ComponentModel.ISupportInitialize) (this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -193,6 +213,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button StartStopButton;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem menuClearLog;
 
         #endregion
     }

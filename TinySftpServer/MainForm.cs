@@ -350,7 +350,7 @@ namespace Rebex.TinySftpServer
 			Server.Stop();
 			Server.Unbind();
 
-			Log.Write("Stopped.");
+			Log.Write(LogColor.Success, "SFTP server is stopped.");
 			IsStarted = false;
 		}
 
@@ -410,9 +410,14 @@ namespace Rebex.TinySftpServer
 			return value.Replace(@"\", @"\\");
 		}
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Process.Start(Config.BuruServerUrl);
-        }
-    }
+		private void label4_Click(object sender, EventArgs e)
+		{
+			Process.Start(Config.BuruServerUrl);
+		}
+
+		private void menuClearLog_Click(object sender, EventArgs e)
+		{
+			LogRichTextBox.Clear();
+		}
+	}
 }
