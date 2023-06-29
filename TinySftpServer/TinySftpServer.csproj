@@ -7,7 +7,7 @@
     <RootNamespace>Rebex.TinySftpServer</RootNamespace>
     <ApplicationIcon>Resources\TinySftpServer.ico</ApplicationIcon>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <Version>1.0.13</Version>
+    <Version>1.0.14</Version>
     <Product>Rebex Tiny SFTP Server</Product>
     <Company>Rebex CR, s.r.o.</Company>
     <Description>Simple stand-alone SFTP server for testing purposes</Description>
