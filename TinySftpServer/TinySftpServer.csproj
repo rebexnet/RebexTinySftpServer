@@ -19,9 +19,9 @@
     <EmbeddedResource Include="Resources\TinySftpServer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Rebex.FileServer" Version="6.0.8000" />
-    <PackageReference Include="Rebex.Networking" Version="6.0.8000" />
-    <PackageReference Include="Rebex.Common" Version="6.0.8000" />
+    <PackageReference Include="Rebex.FileServer" Version="7.0.8581" />
+    <PackageReference Include="Rebex.Networking" Version="7.0.8581" />
+    <PackageReference Include="Rebex.Common" Version="7.0.8581" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
