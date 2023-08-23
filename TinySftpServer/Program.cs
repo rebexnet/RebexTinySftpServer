@@ -11,7 +11,8 @@ namespace Rebex.TinySftpServer
 		[STAThread]
 		static void Main()
 		{
-			// set Rebex licensing key
+			// purchase a licsense for https://www.rebex.net/file-server/
+			// or get your 30-day trial key at https://www.rebex.net/support/trial/
 			Rebex.Licensing.Key = LicenseKey.Value;
 
 			// display an error dialog when an unhandled error occurs
