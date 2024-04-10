@@ -9,13 +9,11 @@ namespace Rebex.TinySftpServer
 	/// </summary>
 	public class RichTextBoxLogWriter : LogWriterBase
 	{
-		private RichTextBox _textbox;
-		private int _maxCharsCount;
+		private RichTextBoxExtra _textbox;
 
-		public RichTextBoxLogWriter(RichTextBox textbox, int maxCharsCount, LogLevel level)
+		public RichTextBoxLogWriter(RichTextBoxExtra textbox, LogLevel level)
 		{
 			_textbox = textbox;
-			_maxCharsCount = maxCharsCount;
 			Level = level;
 		}
 
@@ -92,49 +90,7 @@ namespace Rebex.TinySftpServer
 
 		private void WriteInner(Color color, string message)
 		{
-			message += "\r\n";
-			EnsureTextSpace(message.Length);
-
-			_textbox.Focus();
-			_textbox.SelectionColor = color;
-			_textbox.AppendText(message);
-		}
-
-		private void EnsureTextSpace(int length)
-		{
-			if (_textbox.TextLength + length < _maxCharsCount)
-				return;
-
-			int spaceLeft = _maxCharsCount - length;
-
-			if (spaceLeft <= 0)
-			{
-				_textbox.Clear();
-				return;
-			}
-
-			string plainText = _textbox.Text;
-
-			// find the end of line
-			int start = plainText.IndexOf('\n', plainText.Length - spaceLeft);
-			if (start >= 0 && start + 1 < plainText.Length)
-			{
-				_textbox.SelectionStart = 0;
-				_textbox.SelectionLength = start + 1;
-
-				// setting the SelectedText property is available only when ReadOnly = false
-				bool ro = _textbox.ReadOnly;
-				_textbox.ReadOnly = false;
-				_textbox.SelectedText = "";
-				_textbox.ReadOnly = ro;
-
-				_textbox.SelectionStart = _textbox.TextLength;
-				_textbox.SelectionLength = 0;
-			}
-			else
-			{
-				_textbox.Clear();
-			}
+			_textbox.AppendLine(message, color);
 		}
 	}
 }

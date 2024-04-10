@@ -28,6 +28,11 @@ namespace Rebex.TinySftpServer
 		{
 			InitializeComponent();
 			InitUI();
+		}
+
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
 			SetupServer();
 		}
 
@@ -40,7 +45,7 @@ namespace Rebex.TinySftpServer
 			pictureBox2.Image = Image.FromStream(assembly.GetManifestResourceStream(resourcePrefix + "RebexLogo.png"));
 
 			// log writer
-			Server.LogWriter = Log = new RichTextBoxLogWriter(LogRichTextBox, 10 * 1024, DefaultLogLevel);
+			Server.LogWriter = Log = new RichTextBoxLogWriter(LogRichTextBox, DefaultLogLevel);
 
 			// ensure that configuration is readable
 			Config.Verify();

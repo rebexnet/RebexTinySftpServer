@@ -30,7 +30,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.components = new System.ComponentModel.Container();
             this.StartStopButton = new System.Windows.Forms.Button();
-            this.LogRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.LogRichTextBox = new TinySftpServer.RichTextBoxExtra();
             this.AboutBox = new System.Windows.Forms.RichTextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -209,7 +209,7 @@
         private System.Windows.Forms.Label LinkToBuruServer;
         private System.Windows.Forms.Label LinkToHomepage;
         private System.Windows.Forms.ComboBox LogLevelCombo;
-        private System.Windows.Forms.RichTextBox LogRichTextBox;
+        private TinySftpServer.RichTextBoxExtra LogRichTextBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button StartStopButton;
