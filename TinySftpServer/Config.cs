@@ -147,6 +147,15 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		/// <summary>
+		/// Initializes new instance of <see cref="Config"/> and verifies that the config file is readable.
+		/// </summary>
+		public Config()
+		{
+			// Ensure that configuration file is readable.
+			Verify();
+		}
+
 		public void Verify()
 		{
 			try

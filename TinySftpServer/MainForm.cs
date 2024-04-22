@@ -19,8 +19,8 @@ namespace Rebex.TinySftpServer
 		public const LogLevel DefaultLogLevel = LogLevel.Info;
 
 		public bool IsStarted;
-		public FileServer Server = new FileServer();
-		public Config Config = new Config();
+		public FileServer Server;
+		public Config Config;
 		public SshPublicKey[] UserPublicKeys;
 		public RichTextBoxLogWriter Log;
 
@@ -38,17 +38,16 @@ namespace Rebex.TinySftpServer
 
 		private void InitUI()
 		{
+			// initialize form fields
+			Config = new Config();
+			Log = new RichTextBoxLogWriter(LogRichTextBox, DefaultLogLevel);
+			Server = new FileServer() { LogWriter = Log };
+
 			// set icon and logo
 			var assembly = GetType().Assembly;
 			string resourcePrefix = "Rebex.TinySftpServer.Resources.";
 			Icon = new Icon(assembly.GetManifestResourceStream(resourcePrefix + "TinySftpServer.ico"));
 			pictureBox2.Image = Image.FromStream(assembly.GetManifestResourceStream(resourcePrefix + "RebexLogo.png"));
-
-			// log writer
-			Server.LogWriter = Log = new RichTextBoxLogWriter(LogRichTextBox, DefaultLogLevel);
-
-			// ensure that configuration is readable
-			Config.Verify();
 
 			// text for About box
 			var sb = new StringBuilder();
