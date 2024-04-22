@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Rebex.TinySftpServer
 {
@@ -239,49 +240,66 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		/// <summary>
+		/// Gets the normalized full path of the requested path.
+		/// If the path is relative, ensures that a file can be created there.
+		/// </summary>
 		private string NormalizeWritableFilePath(string path)
 		{
+			// Just normalize the path if rooted.
 			if (Path.IsPathRooted(path))
-				return path;
-
-			if (File.Exists(path))
 				return Path.GetFullPath(path);
 
-			// path is relative to current directory. Can it be written?
 			try
 			{
-				File.WriteAllText(path, "dummy");
-				{
-					File.Delete(path);
-					return Path.GetFullPath(path);
-				}
+				// Path is relative to the executable directory.
+				string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+				string dir = Path.GetFullPath(Path.Combine(baseDir, path));
+
+				if (File.Exists(dir))
+					return dir;
+
+				// Can it be written?
+				File.WriteAllText(dir, "dummy");
+				File.Delete(dir);
+				return dir;
 			}
 			catch (UnauthorizedAccessException)
 			{
-				var dir = GetAlternativeDataDir();
-				return Path.GetFullPath(Path.Combine(dir, path));
+				// Return alternative path
+				string baseDir = GetAlternativeDataDir();
+				return Path.GetFullPath(Path.Combine(baseDir, path));
 			}
 		}
 
+		/// <summary>
+		/// Gets the normalized full path of the requested path.
+		/// If the path is relative, ensures that a directory can be created there.
+		/// </summary>
 		private string NormalizeWritableDirPath(string path)
 		{
+			// Just normalize the path if rooted.
 			if (Path.IsPathRooted(path))
-				return path;
-
-			if (Directory.Exists(path))
 				return Path.GetFullPath(path);
 
-			// path is relative to current directory. Can it be written?
 			try
 			{
-				Directory.CreateDirectory(path);
-				Directory.Delete(path);
-				return Path.GetFullPath(path);
+				// Path is relative to the executable directory.
+				string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+				string dir = Path.GetFullPath(Path.Combine(baseDir, path));
+
+				if (File.Exists(dir))
+					return dir;
+
+				// Can it be written?
+				Directory.CreateDirectory(dir);
+				return dir;
 			}
 			catch (UnauthorizedAccessException)
 			{
-				var dir = GetAlternativeDataDir();
-				return Path.GetFullPath(Path.Combine(dir, path));
+				// Return alternative path
+				string baseDir = GetAlternativeDataDir();
+				return Path.GetFullPath(Path.Combine(baseDir, path));
 			}
 		}
 	}
