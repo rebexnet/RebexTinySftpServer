@@ -138,7 +138,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(194, 26);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Want something more powerful?\r\nGet full-featured SFTP/SSH server from:\r\n";
+            this.label3.Text = "Want something more powerful?\r\nGet full-featured SFTP/SSH/FTP server:\r\n";
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // LinkToBuruServer

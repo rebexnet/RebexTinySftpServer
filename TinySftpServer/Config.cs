@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -12,31 +13,17 @@ namespace Rebex.TinySftpServer
 	public class Config
 	{
 		/// <summary>
-		/// Product homepage URL
-		/// </summary>
-		/// <remarks>
-		/// For Google Analytics params
-		/// see https://support.google.com/analytics/answer/1033867?hl=en
-		/// </remarks>
-		public const string HomepageUrl = "https://www.rebex.net/tiny-sftp-server/?utm_source=TinySftpServerApp&utm_medium=application&utm_content=MainScreenLink&utm_campaign=TinySftpServerAppLinks";
-
-		/// <summary>
-		/// Buru Server URL
-		/// </summary>
-		public const string BuruServerUrl = "https://www.rebex.net/buru-sftp-server/?utm_source=TinySftpServer";
-
-		/// <summary>
-		/// SFTP user name
+		/// SFTP user name.
 		/// </summary>
 		public string UserName { get { return GetValue("userName", "tester"); } }
 
 		/// <summary>
-		/// Password for SFTP user
+		/// Password for SFTP user.
 		/// </summary>
 		public string UserPassword { get { return GetValue("userPassword", "password"); } }
 
 		/// <summary>
-		/// Directory for storing user public key file(s) (optional)
+		/// Directory for storing user public key file(s) (optional).
 		/// </summary>
 		public string UserPublicKeyDir
 		{
@@ -58,7 +45,7 @@ namespace Rebex.TinySftpServer
 		}
 
 		/// <summary>
-		/// User root dir
+		/// User root dir.
 		/// </summary>
 		public string UserRootDir
 		{
@@ -99,6 +86,7 @@ namespace Rebex.TinySftpServer
 		/// Password for DSS private key. 
 		/// </summary>
 		public string DssPrivateKeyPassword { get { return GetValue("dssPrivateKeyPassword", ""); } }
+
 		/// <summary>
 		/// Path to DSS private key file.
 		/// </summary>
@@ -139,6 +127,9 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		/// <summary>
+		/// True to display login credentials in UI.
+		/// </summary>
 		public bool ShowUserDetails
 		{
 			get
@@ -157,6 +148,9 @@ namespace Rebex.TinySftpServer
 			Verify();
 		}
 
+		/// <summary>
+		/// Verifies config file.
+		/// </summary>
 		public void Verify()
 		{
 			try
@@ -186,6 +180,9 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		/// <summary>
+		/// Reads value from config.
+		/// </summary>
 		private string GetValue(string key, string defaultValue)
 		{
 			var result = ConfigurationManager.AppSettings[key];
@@ -195,7 +192,10 @@ namespace Rebex.TinySftpServer
 			return result;
 		}
 
-		public string GetAlternativeDataDir()
+		/// <summary>
+		/// Directory under specialized folder 'Local Application Data'.
+		/// </summary>
+		private string GetAlternativeDataDir()
 		{
 			var rootPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			var dir = Path.Combine(rootPath, "RebexTinySftpServer");
@@ -205,7 +205,11 @@ namespace Rebex.TinySftpServer
 			return dir;
 		}
 
-		public IEnumerable<IPAddress> GetAllLocalIPAddresses() {
+		/// <summary>
+		/// Lists all known local IP addresses.
+		/// </summary>
+		public IEnumerable<IPAddress> GetAllLocalIPAddresses()
+		{
 			string hostName = Dns.GetHostName();
 
 			IPHostEntry ipHostEntry = Dns.GetHostEntry(hostName);
@@ -213,6 +217,9 @@ namespace Rebex.TinySftpServer
 			return ipHostEntry.AddressList;
 		}
 
+		/// <summary>
+		/// Path to the configuration file.
+		/// </summary>
 		public string ConfigurationFilePath
 		{
 			get
@@ -221,24 +228,48 @@ namespace Rebex.TinySftpServer
 			}
 		}
 
+		/// <summary>
+		/// Product name and version.
+		/// </summary>
 		public string ProductVersion
 		{
 			get
 			{
 				Assembly assembly = Assembly.GetExecutingAssembly();
 				FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-
-				var result = string.Format(
-					"{0} v{1}.{2}.{3}",
-					fvi.ProductName,
-					fvi.ProductMajorPart,
-					fvi.ProductMinorPart,
-					fvi.ProductBuildPart
-					);
-
-				return result;
+				return string.Format(CultureInfo.InvariantCulture, "{0} v{1}", fvi.ProductName, VersionNumber);
 			}
 		}
+
+		/// <summary>
+		/// Assembly version.
+		/// </summary>
+		private static string VersionNumber
+		{
+			get
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+				FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+				return string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}", fvi.ProductMajorPart, fvi.ProductMinorPart, fvi.ProductBuildPart);
+			}
+		}
+
+		private const string UtmMedium = "utm_medium=application";
+		private const string UtmSource = "utm_source=tiny-sftp";
+		private const string UtmCampaign = "utm_campaign=main-screen";
+		private const string UtmContentHome = "utm_content=tiny-sftp-homepage";
+		private const string UtmContentPromo = "utm_content=buru-sftp-homepage";
+		private static readonly string UtmTerm = string.Format("utm_term={0}", VersionNumber);
+
+		/// <summary>
+		/// Product homepage URL.
+		/// </summary>
+		public static readonly string HomepageUrl = "https://www.rebex.net/tiny-sftp-server/?" + UtmMedium + "&" + UtmSource + "&" + UtmTerm + "&" + UtmCampaign + "&" + UtmContentHome;
+
+		/// <summary>
+		/// Buru Server URL.
+		/// </summary>
+		public static readonly string BuruServerUrl = "https://www.rebex.net/buru-sftp-server/?" + UtmMedium + "&" + UtmSource + "&" + UtmTerm + "&" + UtmCampaign + "&" + UtmContentPromo;
 
 		/// <summary>
 		/// Gets the normalized full path of the requested path.
