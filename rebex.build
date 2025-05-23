@@ -1,0 +1,3 @@
+<project>
+    <rebex-build target="tinysftpserver" package="AppBuild" version="1.0.112" />
+</project>
