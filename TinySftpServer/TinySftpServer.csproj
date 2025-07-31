@@ -7,7 +7,7 @@
     <RootNamespace>Rebex.TinySftpServer</RootNamespace>
     <ApplicationIcon>Resources\TinySftpServer.ico</ApplicationIcon>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <Version>1.0.21</Version>
+    <Version>1.0.22</Version>
     <Product>Rebex Tiny SFTP Server</Product>
     <Company>REBEX CR s.r.o.</Company>
     <Description>Simple stand-alone SFTP server for testing purposes</Description>
@@ -19,9 +19,9 @@
     <EmbeddedResource Include="Resources\TinySftpServer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Rebex.FileServer" Version="7.0.9147" />
-    <PackageReference Include="Rebex.Networking" Version="7.0.9147" />
-    <PackageReference Include="Rebex.Common" Version="7.0.9147" />
+    <PackageReference Include="Rebex.FileServer" Version="7.0.9313" />
+    <PackageReference Include="Rebex.Networking" Version="7.0.9313" />
+    <PackageReference Include="Rebex.Common" Version="7.0.9313" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
