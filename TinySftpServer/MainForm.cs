@@ -306,6 +306,7 @@ namespace Rebex.TinySftpServer
 			UserPublicKeys = null;
 			Server.Settings.AllowedAuthenticationMethods = AuthenticationMethods.Password;
 			Server.Settings.KeepAlivePeriod = 180; // 3 minutes
+			Server.Settings.SshParameters.SetEncryptionAlgorithms(Config.Ciphers);
 			if (!string.IsNullOrEmpty(Config.UserPublicKeyDir))
 			{
 				// iterate through all public keys and load them

@@ -4,9 +4,11 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
+using Rebex.Net;
 
 namespace Rebex.TinySftpServer
 {
@@ -136,6 +138,45 @@ namespace Rebex.TinySftpServer
 			{
 				var value = GetValue("showUserDetailsOnStartup", "true");
 				return Boolean.Parse(value);
+			}
+		}
+
+		/// <summary>
+		/// List of enabled SSH encryption algorithms.
+		/// </summary>
+		/// <remarks>
+		/// Supported ciphers:
+		/// <code>aes256-gcm@openssh.com</code>, 
+		/// <code>aes128-gcm@openssh.com</code>, 
+		/// <code>chacha20-poly1305@openssh.com</code>, 
+		/// <code>aes256-ctr</code>, 
+		/// <code>aes192-ctr</code>, 
+		/// <code>aes128-ctr</code>, 
+		/// <code>aes256-cbc</code>, 
+		/// <code>aes192-cbc</code>, 
+		/// <code>aes128-cbc</code>, 
+		/// <code>3des-ctr</code>, 
+		/// <code>3des-cbc</code>, 
+		/// <code>twofish256-ctr</code>, 
+		/// <code>twofish192-ctr</code>, 
+		/// <code>twofish128-ctr</code>, 
+		/// <code>twofish256-cbc</code>, 
+		/// <code>twofish192-cbc</code>, 
+		/// <code>twofish128-cbc</code>, 
+		/// <code>twofish-cbc</code>, 
+		/// </remarks>
+		public string[] Ciphers
+		{
+			get
+			{
+				string value = GetValue("ciphers", "");
+				string[] ciphers = value.Split(',', ';');
+				ciphers = SshParameters.GetSupportedEncryptionAlgorithms().Intersect(ciphers.Select(c => c.Trim())).ToArray();
+				if (ciphers.Length == 0)
+				{
+					ciphers = "aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr,3des-ctr".Split(',');
+				}
+				return ciphers;
 			}
 		}
 
