@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -56,12 +57,17 @@ namespace Rebex.TinySftpServer
 			sb.Append(@"\b " + Config.ProductVersion + @" \b0 \line ");
 			sb.Append(@"Free minimalist SFTP server with no setup and modern cipher support. \line ");
 			sb.Append(@"\line ");
-			sb.Append(@"Server IP: \line");
+			sb.Append(@"Server IP: \tab ");
 
-			foreach (var IpAddress in Config.GetAllLocalIPAddresses())
+			string indent = "";
+			foreach (var ipAddress in Config.GetAllLocalIPAddresses().OrderBy(ip => ip.AddressFamily))
 			{
-				if(IpAddress.AddressFamily == AddressFamily.InterNetwork)
-					sb.Append(@"\tab\tab " + IpAddress + @" \line ");
+				if (ipAddress.AddressFamily == AddressFamily.InterNetwork ||
+					ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
+				{
+					sb.Append(indent + ipAddress + @" \line ");
+					indent = @" \tab \tab ";
+				}
 			}
 
 			sb.Append(@"\line ");
@@ -337,10 +343,21 @@ namespace Rebex.TinySftpServer
 			}
 			catch (InvalidOperationException x)
 			{
-				Log.Write(LogColor.Error, "Unable to bind to port {0}: {1}", Config.ServerPort, x.Message);
+				Log.Write(LogColor.Error, "Unable to bind to port {0} on IPv4 interface: {1}", Config.ServerPort, x.Message);
 				Log.Write(LogColor.Important, "Unable to bind to port {0}. Try changing it in the configuration file.", Config.ServerPort);
-				return;
 			}
+			try
+			{
+				Server.Bind(new IPEndPoint(IPAddress.IPv6Any, Config.ServerPort), FileServerProtocol.Sftp);
+			}
+			catch (InvalidOperationException x)
+			{
+				Log.Write(LogColor.Error, "Unable to bind to port {0} on IPv6 interface: {1}", Config.ServerPort, x.Message);
+				Log.Write(LogColor.Important, "Unable to bind to port {0}. Try changing it in the configuration file.", Config.ServerPort);
+			}
+
+			if (Server.Bindings.Count == 0)
+				return;
 
 			Log.Write("Starting...");
 			Server.Start();
