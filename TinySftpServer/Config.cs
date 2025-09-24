@@ -163,7 +163,7 @@ namespace Rebex.TinySftpServer
 		/// <code>twofish256-cbc</code>, 
 		/// <code>twofish192-cbc</code>, 
 		/// <code>twofish128-cbc</code>, 
-		/// <code>twofish-cbc</code>, 
+		/// <code>twofish-cbc</code>.
 		/// </remarks>
 		public string[] Ciphers
 		{
@@ -177,6 +177,43 @@ namespace Rebex.TinySftpServer
 					ciphers = "aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr,3des-ctr".Split(',');
 				}
 				return ciphers;
+			}
+		}
+
+		/// <summary>
+		/// List of IP addresses to bind the server to.
+		/// </summary>
+		public IEnumerable<IPAddress> IPAddresses
+		{
+			get
+			{
+				string value = GetValue("sshIPBindings", "Any");
+				var bindings = value.Split(',', ';').Select(v => v.Trim());
+				var ips = new HashSet<IPAddress>();
+				foreach (var b in bindings)
+				{
+					switch (b.ToLowerInvariant())
+					{
+						case "": // ignore empty values
+							break;
+						case "any": ips.Add(IPAddress.Any); ips.Add(IPAddress.IPv6Any); break;
+						case "ipv4any": ips.Add(IPAddress.Any); break;
+						case "ipv6any": ips.Add(IPAddress.IPv6Any); break;
+						case "loopback": ips.Add(IPAddress.Loopback); ips.Add(IPAddress.IPv6Loopback); break;
+						case "ipv4loopback": ips.Add(IPAddress.Loopback); break;
+						case "ipv6loopback": ips.Add(IPAddress.IPv6Loopback); break;
+						default:
+							IPAddress ip;
+							if (!IPAddress.TryParse(b, out ip))
+							{
+								throw new ConfigurationErrorsException(string.Format(CultureInfo.InvariantCulture,
+									"Invalid value of 'sshIPBindings' in config file: {0}.", b));
+							}
+							ips.Add(ip);
+							break;
+					}
+				}
+				return ips;
 			}
 		}
 

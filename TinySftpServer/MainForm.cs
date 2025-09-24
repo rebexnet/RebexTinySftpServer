@@ -337,24 +337,7 @@ namespace Rebex.TinySftpServer
 			Configure();
 
 			Log.Write("Binding SFTP server to port {0}...", Config.ServerPort);
-			try
-			{
-				Server.Bind(Config.ServerPort, FileServerProtocol.Sftp);
-			}
-			catch (InvalidOperationException x)
-			{
-				Log.Write(LogColor.Error, "Unable to bind to port {0} on IPv4 interface: {1}", Config.ServerPort, x.Message);
-				Log.Write(LogColor.Important, "Unable to bind to port {0}. Try changing it in the configuration file.", Config.ServerPort);
-			}
-			try
-			{
-				Server.Bind(new IPEndPoint(IPAddress.IPv6Any, Config.ServerPort), FileServerProtocol.Sftp);
-			}
-			catch (InvalidOperationException x)
-			{
-				Log.Write(LogColor.Error, "Unable to bind to port {0} on IPv6 interface: {1}", Config.ServerPort, x.Message);
-				Log.Write(LogColor.Important, "Unable to bind to port {0}. Try changing it in the configuration file.", Config.ServerPort);
-			}
+			BindServer();
 
 			if (Server.Bindings.Count == 0)
 				return;
@@ -374,6 +357,31 @@ namespace Rebex.TinySftpServer
 
 			Log.Write(LogColor.Success, "SFTP server is stopped.");
 			IsStarted = false;
+		}
+
+		private void BindServer()
+		{
+			foreach (var ip in Config.IPAddresses)
+			{
+				Exception ex = null;
+				try
+				{
+					Server.Bind(new IPEndPoint(ip, Config.ServerPort), FileServerProtocol.Sftp);
+				}
+				catch (SocketException x)
+				{
+					ex = x;
+				}
+				catch (InvalidOperationException x)
+				{
+					ex = x;
+				}
+				if (ex != null)
+				{
+					Log.Write(LogColor.Error, "Unable to bind to port {0} on {1} interface: {2}", Config.ServerPort, ip, ex.Message);
+					Log.Write(LogColor.Important, "Try changing 'sshPort' or 'sshIPBindings' in the configuration file.");
+				}
+			}
 		}
 
 		private void UpdateUI()
