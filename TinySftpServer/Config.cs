@@ -130,6 +130,18 @@ namespace Rebex.TinySftpServer
 		}
 
 		/// <summary>
+		/// True if app should minimize on start.
+		/// </summary>
+		public bool MinimizeOnStart
+		{
+			get
+			{
+				var value = GetValue("minimizeOnStart", "false");
+				return Boolean.Parse(value);
+			}
+		}
+		
+		/// <summary>
 		/// True to display login credentials in UI.
 		/// </summary>
 		public bool ShowUserDetails

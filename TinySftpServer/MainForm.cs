@@ -35,6 +35,10 @@ namespace Rebex.TinySftpServer
 		{
 			base.OnLoad(e);
 			SetupServer();
+			if (Config.MinimizeOnStart)
+			{
+				WindowState = FormWindowState.Minimized;
+			}
 		}
 
 		private void InitUI()
