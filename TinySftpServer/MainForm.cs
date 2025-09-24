@@ -21,6 +21,7 @@ namespace Rebex.TinySftpServer
 
 		public bool IsStarted;
 		public bool IsExit;
+		public bool MinimizeToTray;
 		public FileServer Server;
 		public Config Config;
 		public SshPublicKey[] UserPublicKeys;
@@ -29,7 +30,16 @@ namespace Rebex.TinySftpServer
 		public MainForm()
 		{
 			InitializeComponent();
+			InitFields();
 			InitUI();
+		}
+
+		private void InitFields()
+		{
+			Config = new Config();
+			Log = new RichTextBoxLogWriter(LogRichTextBox, DefaultLogLevel);
+			Server = new FileServer() { LogWriter = Log };
+			MinimizeToTray = Config.MinimizeToTray;
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -40,7 +50,7 @@ namespace Rebex.TinySftpServer
 			{
 				WindowState = FormWindowState.Minimized;
 			}
-			if (Config.MinimizeToTray)
+			if (MinimizeToTray)
 			{
 				NotifyIcon.Visible = true;
 			}
@@ -48,11 +58,6 @@ namespace Rebex.TinySftpServer
 
 		private void InitUI()
 		{
-			// initialize form fields
-			Config = new Config();
-			Log = new RichTextBoxLogWriter(LogRichTextBox, DefaultLogLevel);
-			Server = new FileServer() { LogWriter = Log };
-
 			// set icon and logo
 			var assembly = GetType().Assembly;
 			string resourcePrefix = "Rebex.TinySftpServer.Resources.";
@@ -436,7 +441,7 @@ namespace Rebex.TinySftpServer
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (Config.MinimizeToTray && !IsExit)
+			if (MinimizeToTray && !IsExit)
 			{
 				e.Cancel = true;
 				WindowState = FormWindowState.Minimized;
@@ -454,7 +459,7 @@ namespace Rebex.TinySftpServer
 
 		private void MainForm_Resize(object sender, EventArgs e)
 		{
-			if (Config.MinimizeToTray && WindowState == FormWindowState.Minimized)
+			if (MinimizeToTray && WindowState == FormWindowState.Minimized)
 			{
 				ShowInTaskbar = false;
 				Hide();

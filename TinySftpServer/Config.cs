@@ -108,12 +108,13 @@ namespace Rebex.TinySftpServer
 			get
 			{
 				var value = GetValue("sshPort", "22");
-				int result;
-				if (!Int32.TryParse(value, out result))
+				ushort port;
+				if (!ushort.TryParse(value, out port) || port == 0)
 				{
 					throw new ConfigurationErrorsException("Invalid value for 'sshPort' in config file.");
 				}
-				return result;
+				return port;
+
 			}
 		}
 
@@ -124,8 +125,7 @@ namespace Rebex.TinySftpServer
 		{
 			get
 			{
-				var value = GetValue("autoStart", "false");
-				return Boolean.Parse(value);
+				return GetBoolean("autoStart", false);
 			}
 		}
 
@@ -136,8 +136,7 @@ namespace Rebex.TinySftpServer
 		{
 			get
 			{
-				var value = GetValue("minimizeOnStart", "false");
-				return Boolean.Parse(value);
+				return GetBoolean("minimizeOnStart", false);
 			}
 		}
 
@@ -148,8 +147,7 @@ namespace Rebex.TinySftpServer
 		{
 			get
 			{
-				var value = GetValue("minimizeToTray", "false");
-				return Boolean.Parse(value);
+				return GetBoolean("minimizeToTray", false);
 			}
 		}
 
@@ -160,8 +158,7 @@ namespace Rebex.TinySftpServer
 		{
 			get
 			{
-				var value = GetValue("showUserDetailsOnStartup", "true");
-				return Boolean.Parse(value);
+				return GetBoolean("showUserDetailsOnStartup", true);
 			}
 		}
 
@@ -280,6 +277,20 @@ namespace Rebex.TinySftpServer
 
 				throw new ConfigurationErrorsException(message, ex);
 			}
+		}
+
+		/// <summary>
+		/// Reads a boolean value from config.
+		/// </summary>
+		private bool GetBoolean(string key, bool defaultValue)
+		{
+			string value = GetValue(key, string.Empty);
+			if (value.Length == 0) return default;
+			bool result;
+			if (!bool.TryParse(value, out result))
+				throw new ConfigurationErrorsException(string.Format(CultureInfo.InvariantCulture,
+					"Invalid value of '{0}' in config file: {1}.", key, value));
+			return result;
 		}
 
 		/// <summary>
