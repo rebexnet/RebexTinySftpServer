@@ -20,6 +20,7 @@ namespace Rebex.TinySftpServer
 		public const LogLevel DefaultLogLevel = LogLevel.Info;
 
 		public bool IsStarted;
+		public bool IsExit;
 		public FileServer Server;
 		public Config Config;
 		public SshPublicKey[] UserPublicKeys;
@@ -39,6 +40,10 @@ namespace Rebex.TinySftpServer
 			{
 				WindowState = FormWindowState.Minimized;
 			}
+			if (Config.MinimizeToTray)
+			{
+				NotifyIcon.Visible = true;
+			}
 		}
 
 		private void InitUI()
@@ -53,6 +58,8 @@ namespace Rebex.TinySftpServer
 			string resourcePrefix = "Rebex.TinySftpServer.Resources.";
 			Icon = new Icon(assembly.GetManifestResourceStream(resourcePrefix + "TinySftpServer.ico"));
 			pictureBox2.Image = Image.FromStream(assembly.GetManifestResourceStream(resourcePrefix + "RebexLogo.png"));
+			menuItemShow.Image = Icon.ToBitmap();
+			NotifyIcon.Icon = Icon;
 
 			// text for About box
 			var sb = new StringBuilder();
@@ -425,6 +432,58 @@ namespace Rebex.TinySftpServer
 			}
 
 			return new SshPrivateKey(filename, password);
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (Config.MinimizeToTray && !IsExit)
+			{
+				e.Cancel = true;
+				WindowState = FormWindowState.Minimized;
+			}
+			else
+			{
+				// stop the server first
+				if (IsStarted)
+				{
+					StopServer();
+				}
+				NotifyIcon.Visible = false;
+			}
+		}
+
+		private void MainForm_Resize(object sender, EventArgs e)
+		{
+			if (Config.MinimizeToTray && WindowState == FormWindowState.Minimized)
+			{
+				ShowInTaskbar = false;
+				Hide();
+			}
+		}
+
+		private void NotifyIcon_Click(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				menuItemShow_Click(sender, e);
+			}
+		}
+
+		private void menuItemShow_Click(object sender, EventArgs e)
+		{
+			if (WindowState == FormWindowState.Minimized)
+			{
+				Show();
+				ShowInTaskbar = true;
+				WindowState = FormWindowState.Normal;
+			}
+			Activate();
+		}
+
+		private void menuItemExit_Click(object sender, EventArgs e)
+		{
+			IsExit = true;
+			Close();
 		}
 
 		private void LogLevelCombo_SelectionChangeCommitted(object sender, EventArgs e)

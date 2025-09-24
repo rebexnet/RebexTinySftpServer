@@ -44,8 +44,14 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
+            this.menuItemShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
+
             // 
             // StartStopButton
             // 
@@ -180,6 +186,30 @@
             this.menuClearLog.Text = "Clear";
             this.menuClearLog.Click += new System.EventHandler(this.menuClearLog_Click);
             // 
+            // menuItemShow
+            // 
+            this.menuItemShow.Name = "menuItemShow";
+            this.menuItemShow.Click += new System.EventHandler(this.menuItemShow_Click);
+            this.menuItemShow.Text = "Rebex Tiny &SFTP Server";
+            // 
+            // menuItemExit
+            //
+            this.menuItemExit.Name = "menuItemExit";
+            this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
+            this.menuItemExit.Text = "E&xit";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.Add(this.menuItemShow);
+            this.contextMenuStrip2.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+            this.contextMenuStrip2.Items.Add(this.menuItemExit);
+            // 
+            // NotifyIcon
+            // 
+            this.NotifyIcon.ContextMenuStrip = this.contextMenuStrip2;
+            this.NotifyIcon.Text = "Rebex Tiny SFTP Server";
+			this.NotifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,12 +224,16 @@
             this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "MainForm";
             this.Text = "Rebex Tiny SFTP Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize) (this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.RichTextBox AboutBox;
@@ -213,8 +247,12 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button StartStopButton;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem menuClearLog;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuClearLog;
+        private System.Windows.Forms.NotifyIcon NotifyIcon;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem menuItemShow;
+        private System.Windows.Forms.ToolStripMenuItem menuItemExit;
 
         #endregion
     }

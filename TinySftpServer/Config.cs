@@ -140,7 +140,19 @@ namespace Rebex.TinySftpServer
 				return Boolean.Parse(value);
 			}
 		}
-		
+
+		/// <summary>
+		/// True if app should minimize to System Tray.
+		/// </summary>
+		public bool MinimizeToTray
+		{
+			get
+			{
+				var value = GetValue("minimizeToTray", "false");
+				return Boolean.Parse(value);
+			}
+		}
+
 		/// <summary>
 		/// True to display login credentials in UI.
 		/// </summary>
