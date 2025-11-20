@@ -377,26 +377,32 @@ namespace Rebex.TinySftpServer
 
 		private void BindServer()
 		{
-			foreach (var ip in Config.IPAddresses)
+			foreach (IPAddress ip in Config.IPAddresses)
 			{
-				Exception ex = null;
-				try
-				{
-					Server.Bind(new IPEndPoint(ip, Config.ServerPort), FileServerProtocol.Sftp);
-				}
-				catch (SocketException x)
-				{
-					ex = x;
-				}
-				catch (InvalidOperationException x)
-				{
-					ex = x;
-				}
-				if (ex != null)
-				{
-					Log.Write(LogColor.Error, "Unable to bind to port {0} on {1} interface: {2}", Config.ServerPort, ip, ex.Message);
-					Log.Write(LogColor.Important, "Try changing 'sshPort' or 'sshIPBindings' in the configuration file.");
-				}
+				BindProtocol(ip, FileServerProtocol.Sftp);
+				BindProtocol(ip, FileServerProtocol.Shell);
+			}
+		}
+
+		private void BindProtocol(IPAddress ip, FileServerProtocol protocol)
+		{
+			Exception ex = null;
+			try
+			{
+				Server.Bind(new IPEndPoint(ip, Config.ServerPort), protocol);
+			}
+			catch (SocketException x)
+			{
+				ex = x;
+			}
+			catch (InvalidOperationException x)
+			{
+				ex = x;
+			}
+			if (ex != null)
+			{
+				Log.Write(LogColor.Error, "Unable to bind {3} protocol to port {0} on {1} interface: {2}", Config.ServerPort, ip, ex.Message, protocol);
+				Log.Write(LogColor.Important, "Try changing 'sshPort' or 'sshIPBindings' in the configuration file.");
 			}
 		}
 
