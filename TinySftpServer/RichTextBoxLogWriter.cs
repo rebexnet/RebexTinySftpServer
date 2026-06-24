@@ -45,7 +45,12 @@ namespace Rebex.TinySftpServer
 			try
 			{
 				if (!_textbox.IsDisposed)
-					_textbox.Invoke(new WriteInnerDelegate(WriteInner), color, message);
+				{
+					if (_textbox.InvokeRequired)
+						_textbox.BeginInvoke(new WriteInnerDelegate(WriteInner), color, message);
+					else
+						WriteInner(color, message);
+				}
 			}
 			catch (ObjectDisposedException)
 			{
