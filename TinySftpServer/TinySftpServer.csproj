@@ -9,9 +9,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Version>1.0.25</Version>
     <Product>Rebex Tiny SFTP Server</Product>
-    <Company>REBEX CR s.r.o.</Company>
+    <Company>REBEX ČR s.r.o.</Company>
     <Description>Simple stand-alone SFTP server for testing purposes</Description>
-    <Copyright>Copyright (c) 2015-2026 REBEX CR s.r.o.</Copyright>
+    <Copyright>Copyright (c) 2015-2026 REBEX ČR s.r.o.</Copyright>
     <PackageProjectUrl>https://www.rebex.net/tiny-sftp-server/</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
@@ -19,9 +19,9 @@
     <EmbeddedResource Include="Resources\TinySftpServer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Rebex.FileServer" Version="8.0.9709" />
-    <PackageReference Include="Rebex.Networking" Version="8.0.9709" />
-    <PackageReference Include="Rebex.Common" Version="8.0.9709" />
+    <PackageReference Include="Rebex.FileServer" Version="8.0.9797" />
+    <PackageReference Include="Rebex.Networking" Version="8.0.9797" />
+    <PackageReference Include="Rebex.Common" Version="8.0.9797" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
